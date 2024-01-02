@@ -1,11 +1,15 @@
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig({ path: '.env' });
 export const config = {
   database: {
     type: process.env.DB_TYPE || 'postgres',
     host: process.env.DB_HOST || 'localhost',
     port: Number(process.env.DB_PORT) || 5432,
-    database: process.env.DB_NAME || 'dbname',
-    username: process.env.DB_USERNAME || 'username',
-    password: process.env.DB_PASSWORD || 'password',
+    database: process.env.DB_NAME || 'booking-movie',
+    username: process.env.DB_USERNAME || 'postgres',
+    password: process.env.DB_PASSWORD,
     ssl: !!process.env.DB_SSL || false,
 
     entities: [`dist/api/**/*.entity{.ts,.js}`],
@@ -34,3 +38,6 @@ export const config = {
     },
   },
 };
+export const connectionSource = new DataSource(
+  config['database'] as DataSourceOptions,
+);
